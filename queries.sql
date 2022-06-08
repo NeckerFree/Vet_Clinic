@@ -93,3 +93,78 @@ select species, AVG(escape_attempts) from animals
 where date_of_birth between '01-01-1990' and '12-31-2000' group by species;
 Result: 
 "pokemon"	3.0
+
+-- query and update animals table
+-- Write queries (using JOIN) to answer the following questions:
+-- What animals belong to Melody Pond?
+select animals.name from animals join owners on animals.owner_id = owners.id; 
+where owners.full_name='Melody Pond';
+Result:
+"Blossom"
+"Squirtle"
+"Charmander"
+
+--List of all animals that are pokemon (their type is Pokemon)
+select animals.name from animals join species on animals.species_id = species.id;
+where species.name='Pokemon';
+Result:
+"Pikachu"
+"Charmander"
+"Squirtle"
+"Blossom"
+
+--List all owners and their animals, remember to include those that don't own any animal
+select owners.full_name, animals.name from animals right join owners on animals.owner_id = owners.id;
+Result: 
+"full_name"	"name"
+
+"Sam Smith"	"Agumon"
+"Jennifer Orwell"	"Gabumon"
+"Jennifer Orwell"	"Pikachu"
+"Bob"	"Devimon"
+"Bob"	"Plantmon"
+"Melody Pond"	"Blossom"
+"Melody Pond"	"Squirtle"
+"Melody Pond"	"Charmander"
+"Dean Winchester"	"Boarmon"
+"Dean Winchester"	"Angemon"
+"Jodie Whittaker"		
+
+--How many animals are there per species?
+select species.name, count(animals.id) from animals join species on animals.species_id = species.id 
+group by species.name;
+Result:
+"name"	"count"
+
+"Pokemon"	4
+"Digimon"	6
+
+--List all Digimon owned by Jennifer Orwell
+select animals.name from animals 
+join owners on animals.owner_id = owners.id 
+join species on animals.species_id = species.id 
+where owners.full_name='Jennifer Orwell'
+and species.name='Digimon';
+Result:
+"name"
+
+"Gabumon"
+
+-- List all animals owned by Dean Winchester that haven't tried to escape
+select animals.name from animals 
+join owners on animals.owner_id = owners.id 
+where owners.full_name='Dean Winchester'
+and animals.escape_attempts=0;
+Result:
+Empty
+
+--Who owns the most animals?
+select owners.full_name, count(animals.id) from animals 
+join owners on animals.owner_id = owners.id 
+group by owners.full_name
+order by count(animals.id) desc
+limit 1;
+Result:
+"full_name"	"count"
+
+"Melody Pond"	3
