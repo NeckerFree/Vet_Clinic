@@ -74,3 +74,177 @@ where name in ('Charmander','Squirtle','Blossom');
 update animals set owner_id =(select id from owners where full_name='Dean Winchester')
 where name in ('Angemon','Boarmon');
 Commit Transaction;
+
+-- add "join table" for visits
+-- Insert the following data for vets:
+INSERT INTO vets(name, age, date_of_graduation) VALUES 
+('William Tatcher', 45, '04-23-2000'),
+('Maisy Smith', 26, '01-17-2019'),
+('Stephanie Mendez', 64, '05-04-1981'),
+('Jack Harkness', 38, '06-08-2008');
+
+-- Insert the following data for specialties:
+INSERT INTO specializations(species_id, vets_id) 
+--Vet William Tatcher is specialized in Pokemon.
+SELECT t1.id, t2.id 
+FROM (select id from species where name='Pokemon') AS t1
+FULL JOIN (select id from vets where name='William Tatcher') AS t2
+ON true
+union
+--Vet Stephanie Mendez is specialized in Digimon and Pokemon.
+SELECT t1.id, t2.id 
+FROM (select id from species where name='Digimon') AS t1
+FULL JOIN (select id from vets where name='Stephanie Mendez') AS t2
+ON true
+union
+SELECT t1.id, t2.id 
+FROM (select id from species where name='Pokemon') AS t1
+FULL JOIN (select id from vets where name='Stephanie Mendez') AS t2
+ON true
+union
+--Vet Jack Harkness is specialized in Digimon.
+SELECT t1.id, t2.id 
+FROM (select id from species where name='Digimon') AS t1
+FULL JOIN (select id from vets where name='Jack Harkness') AS t2
+ON true;
+
+--Insert the following data for visits:
+
+INSERT INTO public.visits(animals_id, vets_id, date_of_visit)
+--Agumon visited William Tatcher on May 24th, 2020.
+SELECT t1.id, t2.id, '05-24-2020' 
+FROM (select id from animals where name='Agumon') AS t1
+FULL JOIN (select id from vets where name='William Tatcher') AS t2
+ON true
+union 
+--Agumon visited Stephanie Mendez on Jul 22th, 2020.
+SELECT t1.id, t2.id, TO_DATE('07-22-2020','MM-DD-YYYY') 
+FROM (select id from animals where name='Agumon') AS t1
+FULL JOIN (select id from vets where name='Stephanie Mendez') AS t2
+ON true
+union 
+-- Gabumon visited Jack Harkness on Feb 2nd, 2021.
+SELECT t1.id, t2.id, TO_DATE('02-02-2021','MM-DD-YYYY') 
+FROM (select id from animals where name='Gabumon') AS t1
+FULL JOIN (select id from vets where name='Jack Harkness') AS t2
+ON true
+union 
+-- Pikachu visited Maisy Smith on Jan 5th, 2020.
+SELECT t1.id, t2.id, TO_DATE('01-05-2020','MM-DD-YYYY') 
+FROM (select id from animals where name='Pikachu') AS t1
+FULL JOIN (select id from vets where name='Maisy Smith') AS t2
+ON true
+union 
+-- Pikachu visited Maisy Smith on Mar 8th, 2020.
+SELECT t1.id, t2.id, TO_DATE('03-08-2020','MM-DD-YYYY') 
+FROM (select id from animals where name='Pikachu') AS t1
+FULL JOIN (select id from vets where name='Maisy Smith') AS t2
+ON true
+union 
+-- Pikachu visited Maisy Smith on May 14th, 2020.
+SELECT t1.id, t2.id, TO_DATE('05-14-2020','MM-DD-YYYY') 
+FROM (select id from animals where name='Pikachu') AS t1
+FULL JOIN (select id from vets where name='Maisy Smith') AS t2
+ON true
+union 
+-- Devimon visited Stephanie Mendez on May 4th, 2021.
+SELECT t1.id, t2.id, TO_DATE('05-04-2021','MM-DD-YYYY') 
+FROM (select id from animals where name='Devimon') AS t1
+FULL JOIN (select id from vets where name='Stephanie Mendez') AS t2
+ON true
+union 
+-- Charmander visited Jack Harkness on Feb 24th, 2021.
+SELECT t1.id, t2.id, TO_DATE('02-24-2021','MM-DD-YYYY') 
+FROM (select id from animals where name='Charmander') AS t1
+FULL JOIN (select id from vets where name='Jack Harkness') AS t2
+ON true
+union 
+-- Plantmon visited Maisy Smith on Dec 21st, 2019.
+SELECT t1.id, t2.id, TO_DATE('12-21-2019','MM-DD-YYYY') 
+FROM (select id from animals where name='Plantmon') AS t1
+FULL JOIN (select id from vets where name='Maisy Smith') AS t2
+ON true
+union 
+-- Plantmon visited William Tatcher on Aug 10th, 2020.
+SELECT t1.id, t2.id, TO_DATE('08-10-2020','MM-DD-YYYY') 
+FROM (select id from animals where name='Plantmon') AS t1
+FULL JOIN (select id from vets where name='William Tatcher') AS t2
+ON true
+union
+-- Plantmon visited Maisy Smith on Apr 7th, 2021.
+SELECT t1.id, t2.id, TO_DATE('04-07-2021','MM-DD-YYYY') 
+FROM (select id from animals where name='Plantmon') AS t1
+FULL JOIN (select id from vets where name='Maisy Smith') AS t2
+ON true
+union 
+-- Squirtle visited Stephanie Mendez on Sep 29th, 2019.
+SELECT t1.id, t2.id, TO_DATE('09-29-2019','MM-DD-YYYY') 
+FROM (select id from animals where name='Squirtle') AS t1
+FULL JOIN (select id from vets where name='Stephanie Mendez') AS t2
+ON true
+union 
+-- Angemon visited Jack Harkness on Oct 3rd, 2020.
+SELECT t1.id, t2.id, TO_DATE('10-03-2020','MM-DD-YYYY') 
+FROM (select id from animals where name='Angemon') AS t1
+FULL JOIN (select id from vets where name='William Tatcher') AS t2
+ON true
+union 
+-- Angemon visited Jack Harkness on Nov 4th, 2020.
+SELECT t1.id, t2.id, TO_DATE('11-04-2020','MM-DD-YYYY') 
+FROM (select id from animals where name='Agumon') AS t1
+FULL JOIN (select id from vets where name='Jack Harkness') AS t2
+ON true
+union 
+-- Boarmon visited Maisy Smith on Jan 24th, 2019.
+SELECT t1.id, t2.id, TO_DATE('01-24-2019','MM-DD-YYYY') 
+FROM (select id from animals where name='Boarmon') AS t1
+FULL JOIN (select id from vets where name='Maisy Smith') AS t2
+ON true
+union 
+-- Boarmon visited Maisy Smith on May 15th, 2019.
+SELECT t1.id, t2.id, TO_DATE('05-15-2019','MM-DD-YYYY') 
+FROM (select id from animals where name='Boarmon') AS t1
+FULL JOIN (select id from vets where name='Maisy Smith') AS t2
+ON true
+union 
+-- Boarmon visited Maisy Smith on Feb 27th, 2020.
+SELECT t1.id, t2.id, TO_DATE('02-27-2020','MM-DD-YYYY') 
+FROM (select id from animals where name='Boarmon') AS t1
+FULL JOIN (select id from vets where name='Maisy Smith') AS t2
+ON true
+union 
+-- Boarmon visited Maisy Smith on Aug 3rd, 2020.
+SELECT t1.id, t2.id, TO_DATE('08-03-2020','MM-DD-YYYY') 
+FROM (select id from animals where name='Boarmon') AS t1
+FULL JOIN (select id from vets where name='Maisy Smith') AS t2
+ON true
+union 
+-- Blossom visited Stephanie Mendez on May 24th, 2020.
+SELECT t1.id, t2.id, TO_DATE('05-24-2020','MM-DD-YYYY') 
+FROM (select id from animals where name='Blossom') AS t1
+FULL JOIN (select id from vets where name='Stephanie Mendez') AS t2
+ON true
+union 
+-- Blossom visited William Tatcher on Jan 11th, 2021.
+SELECT t1.id, t2.id, TO_DATE('01-11-2021','MM-DD-YYYY') 
+FROM (select id from animals where name='Blossom') AS t1
+FULL JOIN (select id from vets where name='William Tatcher') AS t2
+ON true;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
