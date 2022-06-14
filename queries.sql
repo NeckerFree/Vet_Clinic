@@ -275,3 +275,10 @@ Result:
 "specialty"	"count"
 
 "Digimon"	6
+
+
+SELECT count(*) FROM visits where animals_id = 4;
+
+SELECT * FROM visits where vets_id = 2;
+
+SELECT * FROM owners where email = 'owner_18327@mail.com';
