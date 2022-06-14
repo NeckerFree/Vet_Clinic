@@ -58,3 +58,16 @@ create table visits(
     vets_id INT CONSTRAINT FK_vets REFERENCES vets(id),
     date_of_visit date
 );
+
+-- database performance audit
+
+-- Add an email column to your owners table
+ALTER TABLE owners ADD COLUMN email VARCHAR(120);
+
+--Run the following statements to add data to your database (executing them might take a few minutes):
+
+CREATE INDEX animals_id_idx ON visits (animals_id);
+
+CREATE INDEX vets_id_idx ON visits (vets_id ASC);
+
+CREATE INDEX email_idx ON owners (email);
